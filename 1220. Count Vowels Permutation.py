@@ -37,7 +37,7 @@ Constraints:
 """
 
 def Solution(n : int) -> int:
-    nextLetterDictionary = {
+    nextLetterDictionary = { #dictionary of, for each letter, what are valid next characters that can be entered
         "a" : "e",
         "e" : "ai",
         "i" : "aeou",
@@ -45,25 +45,16 @@ def Solution(n : int) -> int:
         "u" : "a"
     }
     def FindNumLetters(previousLetter, depth, currentCount = 0):
-        if depth == n:
-            currentCount += 1
+        if depth == n:#if length is correct
+            currentCount += 1 #new variation, so add one
         else:
-            for letter in nextLetterDictionary[previousLetter]:
-                currentCount = FindNumLetters(letter, depth + 1, currentCount)
-        return currentCount
-    def FindNumLettersDebug(previousLetters, depth, currentCount = 0):
-        if depth == n:
-            print(previousLetters)
-            currentCount += 1
-        else:
-            for letter in nextLetterDictionary[previousLetters[-1]]:
-                currentCount = FindNumLettersDebug(previousLetters + letter, depth + 1, currentCount)
-        return currentCount    
+            for letter in nextLetterDictionary[previousLetter]:#go through every other possible letter
+                currentCount = FindNumLetters(letter, depth + 1, currentCount)#increase depth by one
+        return currentCount   
     count = 0
     for letter in nextLetterDictionary:
-        count += FindNumLettersDebug(letter, 1)
+        count += FindNumLetters(letter, 1)
     return count
 
-"""for n in range(1, 4):
-    print(Solution(n))"""
-print(Solution(5))
+for n in range(1, 10):
+    print(f"{n} : {Solution(n)}")
