@@ -37,7 +37,7 @@ Constraints:
 """
 
 from time import time
-def Solution(n : int) -> int:
+def SolutionControl(n : int) -> int:
     nextLetterDictionary = { #dictionary of, for each letter, what are valid next characters that can be entered
         "a" : "e",
         "e" : "ai",
@@ -57,16 +57,41 @@ def Solution(n : int) -> int:
         count += FindNumLetters(letter, 1)
     return count
 
+def SolutionOptimised(n : int) -> int:
+    nextLetterDictionary = { #dictionary of, for each letter, what are valid next characters that can be entered
+        "a" : ["e"],
+        "e" : ["a", "i"],
+        "i" : ["a","e","o","u"],
+        "o" : ["i","u"],
+        "u" : ["a"]
+    }
+    def FindNumLetters(previousLetter, depth, currentCount = 0):
+        if depth == n:#if length is correct
+            currentCount += 1 #new variation, so add one
+        else:
+            for letter in nextLetterDictionary[previousLetter]:#go through every other possible letter
+                currentCount = FindNumLetters(letter, depth + 1, currentCount)#increase depth by one
+        return currentCount   
+    count = 0
+    for letter in nextLetterDictionary:
+        count += FindNumLetters(letter, 1)
+    return count
+
 """for n in range(1, 10):
     print(f"{n} : {Solution(n)}")
 """
 #Optimisation
-
+n = 23
 
 start = time()
-Solution(23)
+SolutionControl(n)
 end = time()
+
+startOptimise = time()
+SolutionOptimised(n)
+endOptimise = time()
 print(end - start)
+print(endOptimise - startOptimise)
 
 
 
