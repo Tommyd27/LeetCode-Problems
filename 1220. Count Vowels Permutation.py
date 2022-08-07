@@ -45,29 +45,11 @@ def Solution(n : int) -> int:
         "o" : "iu",
         "u" : "a"
     }
-    """def FindNumLetters(previousLetter, depth, currentCount = 0):
-        if depth == n:#if length is correct
-            currentCount += 1 #new variation, so add one
-        else:
-            for letter in nextLetterDictionary[previousLetter]:#go through every other possible letter
-                currentCount = FindNumLetters(letter, depth + 1, currentCount)#increase depth by one
-        return currentCount   
-    count = 0
-    for letter in nextLetterDictionary:
-        count += FindNumLetters(letter, 1)
-    return count"""
     def FindNumLetters(previousLetter, depth, currentCount = 0):
         if depth == n:#if length is correct
             currentCount += 1 #new variation, so add one
         else:
-            match previousLetter:
-                case "a" : nextLetters = "e"
-                case "e" : nextLetters = "ai"
-                case "i" : nextLetters = "aeou"
-                case "o" : nextLetters = "iu"
-                case "u" : nextLetters = "a"
-                case _ : nextLetters = ""
-            for letter in nextLetters:
+            for letter in nextLetterDictionary[previousLetter]:#go through every other possible letter
                 currentCount = FindNumLetters(letter, depth + 1, currentCount)#increase depth by one
         return currentCount   
     count = 0
