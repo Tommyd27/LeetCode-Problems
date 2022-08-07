@@ -38,18 +38,32 @@ Constraints:
 
 def Solution(n : int) -> int:
     nextLetterDictionary = {
-        "start" : "aeiou",
         "a" : "e",
         "e" : "ai",
         "i" : "aeou",
         "o" : "iu",
         "u" : "a"
     }
-    def FindNumLetters(previousLetter, depth, depthLimit, currentCount = 1):
-        if depth == depthLimit:
-            return currentCount
+    def FindNumLetters(previousLetter, depth, currentCount = 0):
+        if depth == n:
+            currentCount += 1
         else:
-            return sum([FindNumLetters(x, depth + 1, depthLimit, currentCount + 1) for x in nextLetterDictionary[previousLetter]])
-    return FindNumLetters("start", 0, n)
+            for letter in nextLetterDictionary[previousLetter]:
+                currentCount = FindNumLetters(letter, depth + 1, currentCount)
+        return currentCount
+    def FindNumLettersDebug(previousLetters, depth, currentCount = 0):
+        if depth == n:
+            print(previousLetters)
+            currentCount += 1
+        else:
+            for letter in nextLetterDictionary[previousLetters[-1]]:
+                currentCount = FindNumLettersDebug(previousLetters + letter, depth + 1, currentCount)
+        return currentCount    
+    count = 0
+    for letter in nextLetterDictionary:
+        count += FindNumLettersDebug(letter, 1)
+    return count
 
-print(Solution(1))
+"""for n in range(1, 4):
+    print(Solution(n))"""
+print(Solution(5))
