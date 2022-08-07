@@ -36,6 +36,7 @@ Constraints:
 
 """
 
+from time import time
 def Solution(n : int) -> int:
     nextLetterDictionary = { #dictionary of, for each letter, what are valid next characters that can be entered
         "a" : "e",
@@ -56,5 +57,16 @@ def Solution(n : int) -> int:
         count += FindNumLetters(letter, 1)
     return count
 
-for n in range(1, 10):
+"""for n in range(1, 10):
     print(f"{n} : {Solution(n)}")
+"""
+#Optimisation
+
+
+start = time()
+Solution(30)
+end = time()
+print(end - start)
+
+
+
