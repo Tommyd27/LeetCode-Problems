@@ -64,7 +64,7 @@ def Solution(n : int) -> int:
 
 
 start = time()
-Solution(30)
+Solution(22)
 end = time()
 print(end - start)
 
