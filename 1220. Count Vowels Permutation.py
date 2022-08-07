@@ -65,10 +65,10 @@ def SolutionOptimised(n : int) -> int:
         "o" : ["i","u"],
         "u" : ["a"]
     }
-    depthCache = [1]
+    depthCache = []
     def FindNumLetters(previousLetter, depth, currentCount = 0):
         try:
-            return depthCache[n - depth]
+            return depthCache[depth - 1]
         except IndexError:
             if depth == n:#if length is correct
                 currentCount += 1 #new variation, so add one
@@ -92,13 +92,13 @@ end = time()
 print(f"Control Time: {end - start}")
 
 
-"""startOptimise = time()
+startOptimise = time()
 print(f"Optimised: {SolutionOptimised(n)}")
 endOptimise = time()
 
 
 
 print(f"Optimised Time: {endOptimise - startOptimise}")
-"""
+
 
 
