@@ -39,11 +39,11 @@ Constraints:
 from time import time
 def SolutionControl(n : int) -> int:
     nextLetterDictionary = { #dictionary of, for each letter, what are valid next characters that can be entered
-        "a" : "e",
-        "e" : "ai",
-        "i" : "aeou",
-        "o" : "iu",
-        "u" : "a"
+        "a" : ["e"],
+        "e" : ["a", "i"],
+        "i" : ["a","e","o","u"],
+        "o" : ["i","u"],
+        "u" : ["a"]
     }
     def FindNumLetters(previousLetter, depth, currentCount = 0):
         if depth == n:#if length is correct
@@ -65,13 +65,18 @@ def SolutionOptimised(n : int) -> int:
         "o" : ["i","u"],
         "u" : ["a"]
     }
+    depthCache = [1]
     def FindNumLetters(previousLetter, depth, currentCount = 0):
-        if depth == n:#if length is correct
-            currentCount += 1 #new variation, so add one
-        else:
-            for letter in nextLetterDictionary[previousLetter]:#go through every other possible letter
-                currentCount = FindNumLetters(letter, depth + 1, currentCount)#increase depth by one
-        return currentCount   
+        try:
+            return depthCache[n - depth]
+        except IndexError:
+            if depth == n:#if length is correct
+                currentCount += 1 #new variation, so add one
+            else:
+                for letter in nextLetterDictionary[previousLetter]:#go through every other possible letter
+                    currentCount = FindNumLetters(letter, depth + 1, currentCount)#increase depth by one
+            depthCache.append(currentCount)
+            return currentCount   
     count = 0
     for letter in nextLetterDictionary:
         count += FindNumLetters(letter, 1)
@@ -84,14 +89,14 @@ def SolutionOptimised(n : int) -> int:
 n = 23
 
 start = time()
-SolutionControl(n)
+print(f"Control: {SolutionControl(n)}")
 end = time()
 
 startOptimise = time()
-SolutionOptimised(n)
+print(f"Optimised: {SolutionOptimised(n)}")
 endOptimise = time()
-print(end - start)
-print(endOptimise - startOptimise)
+print(f"Control Time: {end - start}")
+print(f"Optimised Time: {endOptimise - startOptimise}")
 
 
 
