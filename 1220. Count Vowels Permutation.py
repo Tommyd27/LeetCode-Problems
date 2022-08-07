@@ -82,21 +82,23 @@ def SolutionOptimised(n : int) -> int:
         count += FindNumLetters(letter, 1)
     return count
 
-"""for n in range(1, 10):
-    print(f"{n} : {Solution(n)}")
-"""
+
 #Optimisation
 n = 23
 
 start = time()
 print(f"Control: {SolutionControl(n)}")
 end = time()
+print(f"Control Time: {end - start}")
 
-startOptimise = time()
+
+"""startOptimise = time()
 print(f"Optimised: {SolutionOptimised(n)}")
 endOptimise = time()
-print(f"Control Time: {end - start}")
-print(f"Optimised Time: {endOptimise - startOptimise}")
 
+
+
+print(f"Optimised Time: {endOptimise - startOptimise}")
+"""
 
 
