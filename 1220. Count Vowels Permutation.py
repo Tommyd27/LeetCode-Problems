@@ -89,7 +89,7 @@ def SolutionOptimised(n : int) -> int:
 
 
 #Optimisation
-n = 200
+n = 998
 
 """start = time()
 print(f"Control: {SolutionControl(n)}")
