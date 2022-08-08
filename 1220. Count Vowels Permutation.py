@@ -45,26 +45,6 @@ def SolutionControl(n : int) -> int:
         "o" : ["i","u"],
         "u" : ["a"]
     }
-    def FindNumLetters(previousLetter, depth, currentCount = 0):
-        if depth == n:#if length is correct
-            currentCount += 1 #new variation, so add one
-        else:
-            for letter in nextLetterDictionary[previousLetter]:#go through every other possible letter
-                currentCount = FindNumLetters(letter, depth + 1, currentCount)#increase depth by one
-        return currentCount   
-    count = 0
-    for letter in nextLetterDictionary:
-        count += FindNumLetters(letter, 1)
-    return count
-
-def SolutionOptimised(n : int) -> int:
-    nextLetterDictionary = { #dictionary of, for each letter, what are valid next characters that can be entered
-        "a" : ["e"],
-        "e" : ["a", "i"],
-        "i" : ["a","e","o","u"],
-        "o" : ["i","u"],
-        "u" : ["a"]
-    }
     depthCache = {
         "a" : {0 : 1},
         "e" : {0 : 1},
@@ -81,29 +61,58 @@ def SolutionOptimised(n : int) -> int:
                 newCount = FindNumLetters(letter, depth + 1, newCount)#increase depth by one
             depthCache[previousLetter][n - depth] = newCount
             currentCount += newCount
+        if depth == 2:
+            pass
         return currentCount  
     count = 0
     for letter in nextLetterDictionary:
         count += FindNumLetters(letter, 1)
     return count
 
+def SolutionOptimised(n : int) -> int:
+    nextLetterDictionary = { #dictionary of, for each letter, what are valid next characters that can be entered
+        "a" : ["e"],
+        "e" : ["a", "i"],
+        "i" : ["a","e","o","u"],
+        "o" : ["i","u"],
+        "u" : ["a"]
+    }
+    dp = [[1] * 5]
+    for _ in range(n - 1):
+        dp += [[0] * (5)]
+        #a
+        dp[-1][0] = dp[0][1] + dp[0][2] + dp[0][4]
+        #e
+        dp[-1][1] = dp[0][0] + dp[0][2]
+        #i
+        dp[-1][2] = dp[0][1] + dp[0][3] 
+        #o
+        dp[-1][3] = dp[0][2]
+        #u
+        dp[-1][4] = dp[0][2] + dp[0][3]
+
+        del dp[0]
+
+    return sum(dp[0])
+
 
 #Optimisation
-n = 998
+n = 10
 
-"""start = time()
+start = time()
 print(f"Control: {SolutionControl(n)}")
 end = time()
-print(f"Control Time: {end - start}")"""
+print(f"Control Time: {end - start}")
 
 
 startOptimise = time()
 print(f"Optimised: {SolutionOptimised(n)}")
 endOptimise = time()
-
-
-
 print(f"Optimised Time: {endOptimise - startOptimise}")
+
+
+
+
 
 
 
