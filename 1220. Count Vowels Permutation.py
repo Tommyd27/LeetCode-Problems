@@ -65,18 +65,23 @@ def SolutionOptimised(n : int) -> int:
         "o" : ["i","u"],
         "u" : ["a"]
     }
-    depthCache = []
+    depthCache = {
+        "a" : {0 : 1},
+        "e" : {0 : 1},
+        "i" : {0 : 1},
+        "o" : {0 : 1},
+        "u" : {0 : 1}
+        }
     def FindNumLetters(previousLetter, depth, currentCount = 0):
         try:
-            return depthCache[depth - 1]
-        except IndexError:
-            if depth == n:#if length is correct
-                currentCount += 1 #new variation, so add one
-            else:
-                for letter in nextLetterDictionary[previousLetter]:#go through every other possible letter
-                    currentCount = FindNumLetters(letter, depth + 1, currentCount)#increase depth by one
-            depthCache.append(currentCount)
-            return currentCount   
+            currentCount += depthCache[previousLetter][n - depth]
+        except KeyError:
+            newCount = 0
+            for letter in nextLetterDictionary[previousLetter]:#go through every other possible letter
+                newCount = FindNumLetters(letter, depth + 1, newCount)#increase depth by one
+            depthCache[previousLetter][n - depth] = newCount
+            currentCount += newCount
+        return currentCount  
     count = 0
     for letter in nextLetterDictionary:
         count += FindNumLetters(letter, 1)
@@ -84,12 +89,12 @@ def SolutionOptimised(n : int) -> int:
 
 
 #Optimisation
-n = 23
+n = 200
 
-start = time()
+"""start = time()
 print(f"Control: {SolutionControl(n)}")
 end = time()
-print(f"Control Time: {end - start}")
+print(f"Control Time: {end - start}")"""
 
 
 startOptimise = time()
