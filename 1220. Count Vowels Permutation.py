@@ -37,6 +37,8 @@ Constraints:
 """
 
 from time import time
+from math import pow
+modular = pow(10, 9) + 7
 def SolutionControl(n : int) -> int:
     nextLetterDictionary = { #dictionary of, for each letter, what are valid next characters that can be entered
         "a" : ["e"],
@@ -70,13 +72,6 @@ def SolutionControl(n : int) -> int:
     return count
 
 def SolutionOptimised(n : int) -> int:
-    nextLetterDictionary = { #dictionary of, for each letter, what are valid next characters that can be entered
-        "a" : ["e"],
-        "e" : ["a", "i"],
-        "i" : ["a","e","o","u"],
-        "o" : ["i","u"],
-        "u" : ["a"]
-    }
     dp = [[1] * 5]
     for _ in range(n - 1):
         dp += [[0] * (5)]
@@ -92,26 +87,44 @@ def SolutionOptimised(n : int) -> int:
         dp[-1][4] = dp[0][2] + dp[0][3]
 
         del dp[0]
-
     return sum(dp[0])
+def SolutionOptimisedModular(n : int) -> int:#has modular thingy that site wants
+    a, e, i, o, u = [1] * 5
+    for _ in range(n - 1):
+        a, e, i, o, u = map(lambda x : x % modular, [e + i + u, a + i, e + o, i, i + o])
+    return int((a + e + i + o + u) % modular)
+def SolutionOptimisedModularTwo(n : int) -> int:
+    a, e, i, o, u = [1] * 5
+    for _ in range(n - 1):
+        a, e, i, o, u = (e + i + u) % modular, (a + i) % modular, (e + o) % modular, (i) % modular, (i + o) % modular
+    return int((a + e + i + o + u) % modular)
 
 
 #Optimisation
-n = 10
+n = 1000000
 
-start = time()
+"""start = time()
 print(f"Control: {SolutionControl(n)}")
 end = time()
 print(f"Control Time: {end - start}")
 
 
-startOptimise = time()
+start = time()
 print(f"Optimised: {SolutionOptimised(n)}")
-endOptimise = time()
-print(f"Optimised Time: {endOptimise - startOptimise}")
+end = time()
+print(f"Optimised Time: {end - start}")
+"""
 
 
+start = time()
+print(f"Optimised: {SolutionOptimisedModular(n)}")
+end = time()
+print(f"Optimised Time: {end - start}")
 
+start = time()
+print(f"Optimised: {SolutionOptimisedModularTwo(n)}")
+end = time()
+print(f"Optimised Time: {end - start}")
 
 
 
