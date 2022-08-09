@@ -1,11 +1,10 @@
 def twoSum(nums, target):
-    subtractionArray = []
-    subtractionIndex = []
-
-    for i, num in enumerate(nums):
+    def twoSum(self, nums: list[int], target: int) -> List[int]:
+        subtractionDictionary = {}
         for i, num in enumerate(nums):
-            subtractionTarget = target - num
-            for j, numTwo in enumerate(nums[i + 1]):
-                if numTwo == subtractionTarget:
-                    return i, i + j + 1
+            try:
+                return subtractionDictionary[num], i
+            except ValueError:
+                subtractionDictionary[num] = i
+        
                 
