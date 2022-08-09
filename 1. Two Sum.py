@@ -5,6 +5,6 @@ def twoSum(nums, target):
             try:
                 return subtractionDictionary[num], i
             except KeyError:
-                subtractionDictionary[num] = i
+                subtractionDictionary[target - num] = i
         
                 
