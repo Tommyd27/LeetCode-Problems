@@ -2,9 +2,8 @@ def twoSum(nums, target):
     def twoSum(self, nums: list[int], target: int) -> List[int]:
         subtractionDictionary = {}
         for i, num in enumerate(nums):
-            try:
-                return subtractionDictionary[num], i
-            except KeyError:
-                subtractionDictionary[target - num] = i
+            if num in subtractionDictionary:
+                return subtractionDictionary[num], 
+            subtractionDictionary[target - num] = i
         
                 
