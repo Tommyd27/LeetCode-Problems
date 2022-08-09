@@ -3,8 +3,9 @@ def twoSum(nums, target):
     subtractionIndex = []
 
     for i, num in enumerate(nums):
-        try:
-            return subtractionIndex[subtractionArray.index(num)], i
-        except ValueError:
-            subtractionArray.append(num)
-            subtractionIndex.append(i)
+        for i, num in enumerate(nums):
+            subtractionTarget = target - num
+            for j, numTwo in enumerate(nums[i + 1]):
+                if numTwo == subtractionTarget:
+                    return i, i + j + 1
+                
